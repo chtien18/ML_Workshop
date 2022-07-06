@@ -47,12 +47,21 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, random_
 x_train, x_val, y_train, y_val = train_test_split(x_train,y_train, test_size=0.2, random_state=0)
 
 model = Sequential()
-model.add(Dense(200,input_dim = 3,activation = 'relu'))
+model.add(Dense(10,input_dim = 3,activation = 'relu')) #input layer 3 inputs
 model.add(Dropout(0.2))
-model.add(Dense(1,activation='sigmoid'))
+
+model.add(Dense(30, activation = 'relu')) #add new hidden layer
+model.add(Dropout(0.5))
+
+model.add(Dense(20, activation = 'relu')) #add new hidden layer
+model.add(Dropout(0.1))
+
+model.add(Dense(1,activation='sigmoid')) #output layer 1 output
 model.compile(loss='mean_absolute_error',optimizer = Adam(lr = 0.001, beta_1=0.9, beta_2=0.999))
 model.fit(x_train,y_train, validation_data = (x_val,y_val), verbose = 1, epochs = 200)
-model_name = 'SNN_model'
+
+
+model_name = 'DNN_model'
 model_json = model.to_json()
 with open(f"{model_name}.json","w") as json_file:
     json_file.write(model_json)
